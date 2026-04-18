@@ -17,7 +17,7 @@ if ($_SESSION['role'] === 'Admin') {
 
 if ($_SESSION['role'] !== 'Student') {
     http_response_code(403);
-    echo 'Access denied. <a href="index.php">Return to login</a>';
+    echo 'Access denied. <a href="index.php">return</a>';
     exit;
 }
 
@@ -32,33 +32,45 @@ $grades = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-    <h1>Student Dashboard</h1>
-    <p>Welcome, <?php echo htmlspecialchars((string)$_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></p>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>Student Dashboard</h1>
+            <p>Welcome, <?php echo htmlspecialchars((string)$_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></p>
+        </section>
 
-    <h2>Your Grades</h2>
-    <?php if (empty($grades)): ?>
-        <p>No grades found.</p>
-    <?php else: ?>
-        <table border="1" cellpadding="6" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Subject</th>
-                    <th>Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($grades as $grade): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars((string)$grade['subject'], ENT_QUOTES, 'UTF-8'); ?></td>
-                        <td><?php echo (int)$grade['grade_value']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
+        <section class="card">
+            <h2>Your Grades</h2>
+            <?php if (empty($grades)): ?>
+                <p>No grades found.</p>
+            <?php else: ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($grades as $grade): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars((string)$grade['subject'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo (int)$grade['grade_value']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
 
-    <p><a href="logout.php">Log out</a></p>
+            <div class="actions" style="margin-top: 14px;">
+                <a href="logout.php">Log out</a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

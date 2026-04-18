@@ -23,26 +23,37 @@ $remainingSeconds = max(0, $lockoutUntil - time());
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-    <form action="login.php" method="POST" autocomplete="off">
-        <h1>System Login</h1>
+    <main class="page-shell centered">
+        <section class="hero">
+            <h1>Student Information and Grading System</h1>
+            <p>Secure access portal</p>
+        </section>
 
-        <?php if ($error !== ''): ?>
-            <p style="color:#b00020;"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
-        <?php endif; ?>
+        <section class="card">
+            <form action="login.php" method="POST" autocomplete="off">
+                <h2>System Login</h2>
 
-        <label for="username">Username:</label>
-        <input id="username" type="text" name="username" maxlength="50" pattern="[A-Za-z0-9_]+" required>
-        <br>
+                <?php if ($error !== ''): ?>
+                    <p class="notice error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
+                <?php endif; ?>
 
-        <label for="password">Password:</label>
-        <input id="password" type="password" name="password" maxlength="64" required>
-        <br>
+                <label for="username">Username</label>
+                <input id="username" type="text" name="username" maxlength="50" pattern="[A-Za-z0-9_]+" required>
 
-        <input id="loginBtn" type="submit" value="LOG IN" <?php echo $remainingSeconds > 0 ? 'disabled' : ''; ?>>
-        <p id="lockoutMsg"></p>
-    </form>
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" maxlength="64" required>
+
+                <input id="loginBtn" type="submit" value="Log In" <?php echo $remainingSeconds > 0 ? 'disabled' : ''; ?>>
+                <p id="lockoutMsg" class="notice error" style="display:none;"></p>
+            </form>
+        </section>
+    </main>
 
     <script>
         (function () {
@@ -53,12 +64,14 @@ $remainingSeconds = max(0, $lockoutUntil - time());
             function render() {
                 if (remaining > 0) {
                     button.disabled = true;
+                    message.style.display = 'block';
                     message.textContent = 'Login locked. Try again in ' + remaining + 's.';
                     remaining -= 1;
                     return;
                 }
 
                 button.disabled = false;
+                message.style.display = 'none';
                 message.textContent = '';
             }
 

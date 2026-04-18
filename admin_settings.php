@@ -22,6 +22,10 @@ if (!isset($_SESSION['csrf_token'])) {
 
 $message = $_SESSION['admin_message'] ?? '';
 unset($_SESSION['admin_message']);
+$messageClass = 'success';
+if ($message !== '' && (stripos($message, 'failed') !== false || stripos($message, 'invalid') !== false || stripos($message, 'unknown') !== false)) {
+    $messageClass = 'error';
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -29,35 +33,64 @@ unset($_SESSION['admin_message']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-    <h1>Admin Settings</h1>
-    <p>Welcome, <?php echo htmlspecialchars((string)$_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></p>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>Admin Settings</h1>
+            <p>Welcome, <?php echo htmlspecialchars((string)$_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></p>
+        </section>
 
-    <?php if ($message !== ''): ?>
-        <p><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></p>
-    <?php endif; ?>
+        <?php if ($message !== ''): ?>
+            <section class="card">
+                <p class="notice <?php echo $messageClass; ?>"><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></p>
+            </section>
+        <?php endif; ?>
 
-    <h2>Database Export / Restore</h2>
-    <form action="export_backup.php" method="POST">
-        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
-        <button type="submit">Export SQL Backup</button>
-    </form>
+        <section class="card">
+            <h2>Database Export / Restore</h2>
+            <div class="grid">
+                <div>
+                    <h3>Export SQL Backup</h3>
+                    <form action="export_backup.php" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <button type="submit">Export SQL Backup</button>
+                    </form>
+                </div>
 
-    <h2>Internal Backup / Restore</h2>
-    <form action="backup_restore.php" method="POST">
-        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
-        <button type="submit" name="action" value="backup">Run Backup</button>
-        <button type="submit" name="action" value="restore">Run Restore</button>
-    </form>
+                <div>
+                    <h3>Internal Backup / Restore</h3>
+                    <form action="backup_restore.php" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <div class="actions">
+                            <button type="submit" name="action" value="backup">Run Backup</button>
+                            <button type="submit" name="action" value="restore">Run Restore</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
 
-    <h2>Upload SQL Backup (Restore)</h2>
-    <form action="upload_backup.php" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
-        <input type="file" name="backup_file" accept=".sql" required>
-        <button type="submit">Upload</button>
-    </form>
+        <section class="card">
+            <h2>Upload SQL Backup (Restore)</h2>
+            <form action="upload_backup.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
+                <label for="backup_file">Select SQL backup file</label>
+                <input id="backup_file" type="file" name="backup_file" accept=".sql" required>
+                <button type="submit">Upload</button>
+            </form>
+        </section>
 
-    <p><a href="dashboard.php">Back to Dashboard</a></p>
+        <section class="card">
+            <div class="actions">
+                <a href="dashboard.php">Back to Dashboard</a>
+                <a href="logout.php">Log out</a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
