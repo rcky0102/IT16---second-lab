@@ -48,6 +48,64 @@ body {
     gap: 22px;
 }
 
+.app-shell {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    gap: 16px;
+}
+
+.topbar {
+    background: linear-gradient(115deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    color: #eefbff;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.topbar-title {
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.topbar-sub {
+    margin-top: 2px;
+    color: #d7f1ff;
+    font-size: 0.88rem;
+}
+
+.topbar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.topbar-links a {
+    color: #eefbff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: rgba(7, 76, 125, 0.34);
+    border: 1px solid rgba(199, 235, 255, 0.25);
+}
+
+.topbar-links a:hover {
+    background: rgba(7, 76, 125, 0.48);
+}
+
+.content-stack {
+    display: grid;
+    gap: 16px;
+}
+
 .hero {
     background: linear-gradient(115deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08));
     border: 1px solid rgba(255, 255, 255, 0.25);
@@ -232,6 +290,11 @@ tbody tr:nth-child(even) {
 }
 
 @media (max-width: 900px) {
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
     .grid {
         grid-template-columns: 1fr;
     }

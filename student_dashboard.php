@@ -38,38 +38,47 @@ $grades = $stmt->fetchAll();
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-    <main class="page-shell">
-        <section class="hero">
-            <h1>Student Dashboard</h1>
-            <p>Welcome, <?php echo htmlspecialchars((string)$_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></p>
-        </section>
-
-        <section class="card">
-            <h2>Your Grades</h2>
-            <?php if (empty($grades)): ?>
-                <p>No grades found.</p>
-            <?php else: ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Subject</th>
-                            <th>Grade</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($grades as $grade): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars((string)$grade['subject'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo (int)$grade['grade_value']; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
-
-            <div class="actions" style="margin-top: 14px;">
-                <a href="logout.php">Log out</a>
+    <main class="app-shell">
+        <header class="topbar">
+            <div>
+                <div class="topbar-title">Student Information and Grading System</div>
+                <div class="topbar-sub">Student portal</div>
             </div>
+            <nav class="topbar-links">
+                <a href="student_dashboard.php">My Grades</a>
+                <a href="logout.php">Log out</a>
+            </nav>
+        </header>
+
+        <section class="content-stack">
+                <section class="hero">
+                    <h1>Student Dashboard</h1>
+                    <p>Welcome, <?php echo htmlspecialchars((string)$_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></p>
+                </section>
+
+                <section class="card">
+                    <h2>Your Grades</h2>
+                    <?php if (empty($grades)): ?>
+                        <p>No grades found.</p>
+                    <?php else: ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($grades as $grade): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars((string)$grade['subject'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td><?php echo (int)$grade['grade_value']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                </section>
         </section>
     </main>
 </body>

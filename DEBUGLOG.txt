@@ -1,0 +1,29 @@
+o Vulnerability Found: Plaintext passwords stored in the users table and compared directly during login.
+o Fix Applied: Replaced plaintext handling with SHA-256 password hashes in seed data and secure verification logic in login, with compatibility checks for legacy hashes.
+
+o Vulnerability Found: SQL Injection risk in login query due to direct string interpolation of username and password.
+o Fix Applied: Rewrote authentication to use PDO prepared statements with bound parameters and strict server-side validation.
+
+o Vulnerability Found: Malicious hidden backdoor logic (`backdoor_user`) that deletes all grades.
+o Fix Applied: Removed Trojan/backdoor code path entirely and limited database actions to authenticated, authorized handlers.
+
+o Vulnerability Found: Detailed login error message revealed account-specific information.
+o Fix Applied: Replaced verbose failure output with generic authentication error messaging.
+
+o Vulnerability Found: Missing access control in admin dashboard allowed unauthorized direct URL access.
+o Fix Applied: Added session checks and role-based authorization gates; only Admin can access admin pages and Student is redirected appropriately.
+
+o Vulnerability Found: No request integrity protection on sensitive form submissions.
+o Fix Applied: Added CSRF token generation and verification for grade management and backup/restore actions.
+
+o Vulnerability Found: No brute-force protection on login attempts.
+o Fix Applied: Implemented 3-attempt lockout with timed cooldown and client countdown display.
+
+o Vulnerability Found: Redundant address data across users and student_info (normalization issue).
+o Fix Applied: Normalized schema by storing address in student_info and using relational joins instead of duplicated fields.
+
+o Vulnerability Found: Grades table used non-relational student_name field (integrity and update anomaly risk).
+o Fix Applied: Refactored grades to reference student_id foreign key and enforced relational joins with users.
+
+o Vulnerability Found: Unvalidated backup upload/restore flow risked unsafe or tampered restore input.
+o Fix Applied: Enforced admin-only access, CSRF checks, `.sql` file-type checks, TOCTOU re-check before move, and controlled SQL execution via restore utilities.

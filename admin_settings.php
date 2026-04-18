@@ -39,57 +39,50 @@ if ($message !== '' && (stripos($message, 'failed') !== false || stripos($messag
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-    <main class="page-shell">
-        <section class="hero">
-            <h1>Admin Settings</h1>
-            <p>Welcome, <?php echo htmlspecialchars((string)$_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></p>
-        </section>
-
-        <?php if ($message !== ''): ?>
-            <section class="card">
-                <p class="notice <?php echo $messageClass; ?>"><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></p>
-            </section>
-        <?php endif; ?>
-
-        <section class="card">
-            <h2>Database Export / Restore</h2>
-            <div class="grid">
-                <div>
-                    <h3>Export SQL Backup</h3>
-                    <form action="export_backup.php" method="POST">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
-                        <button type="submit">Export SQL Backup</button>
-                    </form>
-                </div>
-
-                <div>
-                    <h3>Internal Backup / Restore</h3>
-                    <form action="backup_restore.php" method="POST">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
-                        <div class="actions">
-                            <button type="submit" name="action" value="backup">Run Backup</button>
-                            <button type="submit" name="action" value="restore">Run Restore</button>
-                        </div>
-                    </form>
-                </div>
+    <main class="app-shell">
+        <header class="topbar">
+            <div>
+                <div class="topbar-title">Student Information and Grading System</div>
+                <div class="topbar-sub">Admin settings and database tools</div>
             </div>
-        </section>
-
-        <section class="card">
-            <h2>Upload SQL Backup (Restore)</h2>
-            <form action="upload_backup.php" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
-                <label for="backup_file">Select SQL backup file</label>
-                <input id="backup_file" type="file" name="backup_file" accept=".sql" required>
-                <button type="submit">Upload</button>
-            </form>
-        </section>
-
-        <section class="card">
-            <div class="actions">
-                <a href="dashboard.php">Back to Dashboard</a>
+            <nav class="topbar-links">
+                <a href="dashboard.php">Dashboard</a>
                 <a href="logout.php">Log out</a>
-            </div>
+            </nav>
+        </header>
+
+        <section class="content-stack">
+                <section class="hero">
+                    <h1>Admin Settings</h1>
+                    <p>Welcome, <?php echo htmlspecialchars((string)$_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></p>
+                </section>
+
+                <?php if ($message !== ''): ?>
+                    <section class="card">
+                        <p class="notice <?php echo $messageClass; ?>"><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></p>
+                    </section>
+                <?php endif; ?>
+
+                <section class="card">
+                    <h2>Database Export</h2>
+                    <div>
+                        <h3>Export SQL Backup</h3>
+                        <form action="export_backup.php" method="POST">
+                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <button type="submit">Export SQL Backup</button>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>Upload SQL Backup (Restore)</h2>
+                    <form action="upload_backup.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <label for="backup_file">Select SQL backup file</label>
+                        <input id="backup_file" type="file" name="backup_file" accept=".sql" required>
+                        <button type="submit">Upload</button>
+                    </form>
+                </section>
         </section>
     </main>
 </body>
